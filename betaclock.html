@@ -1,0 +1,380 @@
+<html>
+<head>
+        <meta name="viewport" content="width=device-width">
+            <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+                <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+                    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+                        <link rel="manifest" href="favicon/site.webmanifest">
+                            <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5">
+                                <meta name="msapplication-TileColor" content="#da532c">
+                                    <meta name="theme-color" content="#ffffff">
+                                        <meta charset="utf-8">
+      
+      
+      
+	<style>
+		body {
+  display:flex;
+  height: 100vh;
+  width:100%;
+  background-color: black;
+  justify-content: center;
+  align-items: center;
+  
+  
+}
+.clock {
+  //border: 3px solid #EFF7FF;
+  //background-image: url("clockface.png");
+  background-size:cover;
+  border-radius: 50%;
+  height:201px;
+  width:201px;
+  transform:rotate(180deg) scale(1.4);
+}
+    
+
+
+.clock .hours {
+  border: 4px solid #EFF7FF;
+  position: absolute;
+  height:15%;
+  border-radius:4px;
+  left:97px;
+  top:102px;
+  animation-duration: 43200s;
+  z-index:1;
+}
+.clock .minutes {
+  border-radius:4px;
+  border: 2px solid #EFF7FF;
+  position: absolute;
+  left:99px;
+  top:100px;
+  height: 35%;
+  animation-duration: 3600s;
+  z-index:2;
+}
+
+.clock .sec {
+  border-radius:4px;
+  border: 1px solid #fead00;
+  position: absolute;
+  left:100px;
+  top:100px;
+  height: 35%;
+  animation-duration: 300s;
+  z-index:3;
+}
+.pin {
+  position: absolute;
+  left:95px;
+  top: 96px;
+  border-radius: 50%;
+  border:6px solid #EFF7FF;
+  z-index:4;
+}
+    
+    
+    #ds {
+        position: absolute;
+        z-index: 1;
+        transform:rotate(180deg);
+    }
+    
+    #bg {
+        position: absolute;
+        z-index: 0;
+    }
+    
+.animate {
+  animation-name: rotate;
+  animation-iteration-count:infinite;
+  animation-timing-function:linear;}
+
+.hand {
+  transform-origin: top center;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+	</style>
+
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+
+
+<div class="clock" id="clock" >
+      <span class="hand sec animate" onClick="changeBG()"></span>
+      <span class="hand minutes animate" onClick="changeBG()"></span>
+      <span class="hand hours animate" onClick="changeBG()"></span> 
+	<span class="pin" onClick="changeBG()"> </span>
+    <span id="ds" onclick="window.location.reload();"></span>
+
+</div>
+
+    
+
+</body>
+
+
+
+
+
+<script>
+
+
+$('#clock').draggable();
+var theme = 0;
+// theme 0 = modern
+// theme 1 = numerical
+var secondsHand = document.querySelector('.sec'),
+      minutesHand = document.querySelector('.minutes'),
+      hoursHand = document.querySelector('.hours'),
+      now = new Date();
+
+
+var minsHand = 0;
+var hHand = 0;
+var fiveInSec = 0;
+
+function moveHands() {
+   
+	if (minsHand >= 3600){
+		minsHand = 0;
+	}
+	if (hoursHand >= 43200){
+		hHand = 0;
+	}
+	
+  
+	var sec = now.getSeconds();
+        mins = now.getMinutes()* 60,
+        hours = now.getHours() * 3600;
+  
+	minsHand = mins + sec;
+	hHand = hours + mins;
+
+// delta secs
+
+	var min = now.getMinutes();
+	var five = 0;
+	if (min < 10){
+  	five = roundToFive(min);
+  }
+  else {
+  	var minLastDigit = parseInt(min.toString().slice(1,2));
+  	five = roundToFive(minLastDigit);
+  }
+	
+  fiveInSec = five * 60 + sec;
+
+
+  secondsHand.style.animationDelay = '-' + fiveInSec + 's';
+  minutesHand.style.animationDelay = '-' + minsHand + 's';
+  hoursHand.style.animationDelay = '-' + hHand + 's';
+}
+
+images = new Array();
+function roundToFive(min){
+	var five = 0;
+	if(min < 5 ){
+  	five = min;
+  }
+  else if (min < 10){
+  	five = min - 5;
+  }
+  return five;
+}
+
+
+
+
+var h= now.getHours();
+
+
+
+images[0] = "<img src='hour/DTS12.png' height='201' width='201'>";
+images[1] = "<img src='hour/DTS1.png' height='201' width='201'>";
+images[2] = "<img src='hour/DTS2.png' height='201' width='201'>";
+images[3] = "<img src='hour/DTS3.png' height='201' width='201'>";
+images[4] = "<img src='hour/DTS4.png' height='201' width='201'>";
+images[5] = "<img src='hour/DTS5.png' height='201' width='201'>";
+images[6] = "<img src='hour/DTS6.png' height='201' width='201'>";
+images[7] = "<img src='hour/DTS7.png' height='201' width='201'>";
+images[8] = "<img src='hour/DTS8.png' height='201' width='201'>";
+images[9] = "<img src='hour/DTS9.png' height='201' width='201'>";
+images[10] = "<img src='hour/DTS10.png' height='201' width='201'>";
+images[11] = "<img src= 'hour/DTS11.png' height='201' width='201'>";
+images[12] = "<img src='hour/DTS12.png' height='201' width='201'>";
+images[13] = "<img src='hour/DTS1.png' height='201' width='201'>";
+images[14] = "<img src='hour/DTS2.png' height='201' width='201'>";
+images[15] = "<img src='hour/DTS3.png' height='201' width='201'>";
+images[16] = "<img src='hour/DTS4.png' height='201' width='201'>";
+images[17] = "<img src='hour/DTS5.png' height='201' width='201'>";
+images[18] = "<img src='hour/DTS6.png' height='201' width='201'>";
+images[19] = "<img src='hour/DTS7.png' height='201' width='201'>";
+images[20] = "<img src='hour/DTS8.png' height='201' width='201'>";
+images[21] = "<img src='hour/DTS9.png' height='201' width='201'>";
+images[22] = "<img src='hour/DTS10.png' height='201' width='201'>";
+images[23] = "<img src='hour/DTS11.png' height='201' width='201'>";
+
+
+document.getElementById('ds').innerHTML = images[h];
+
+// auto refresh every 5s
+var nextRefresh = 5000;
+
+setInterval( function() { 
+h = new Date().getHours();
+
+document.getElementById('ds').innerHTML = images[h];
+
+}, nextRefresh );
+
+
+
+
+moveHands();
+
+
+
+
+
+// target elements with the "draggable" class
+interact('.draggable')
+  .draggable({
+    // enable inertial throwing
+    inertia: true,
+    // keep the element within the area of it's parent
+    modifiers: [
+      interact.modifiers.restrictRect({
+        restriction: 'parent',
+        endOnly: true
+      })
+    ],
+    // enable autoScroll
+    autoScroll: true,
+
+    // call this function on every dragmove event
+    onmove: dragMoveListener,
+    // call this function on every dragend event
+    onend: function (event) {
+      var textEl = event.target.querySelector('p')
+
+      textEl && (textEl.textContent =
+        'moved a distance of ' +
+        (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
+                   Math.pow(event.pageY - event.y0, 2) | 0))
+          .toFixed(2) + 'px')
+    }
+  })
+
+function dragMoveListener (event) {
+  var target = event.target
+  // keep the dragged position in the data-x/data-y attributes
+  var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
+  var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+
+  // translate the element
+  target.style.webkitTransform =
+    target.style.transform =
+      'translate(' + x + 'px, ' + y + 'px)'
+
+  // update the posiion attributes
+  target.setAttribute('data-x', x)
+  target.setAttribute('data-y', y)
+}
+
+// this is used later in the resizing and gesture demos
+window.dragMoveListener = dragMoveListener
+
+
+
+function changeBG(){
+    if (theme == 0){
+        theme = 1; // next is numercial
+        
+       images[0] = "<img src='bg/DTS12.png' height='201' width='201'>";
+       images[1] = "<img src='bg/DTS1.png' height='201' width='201'>";
+       images[2] = "<img src='bg/DTS2.png' height='201' width='201'>";
+       images[3] = "<img src='bg/DTS3.png' height='201' width='201'>";
+       images[4] = "<img src='bg/DTS4.png' height='201' width='201'>";
+       images[5] = "<img src='bg/DTS5.png' height='201' width='201'>";
+       images[6] = "<img src='bg/DTS6.png' height='201' width='201'>";
+       images[7] = "<img src='bg/DTS7.png' height='201' width='201'>";
+       images[8] = "<img src='bg/DTS8.png' height='201' width='201'>";
+       images[9] = "<img src='bg/DTS9.png' height='201' width='201'>";
+       images[10] = "<img src='bg/DTS10.png' height='201' width='201'>";
+       images[11] = "<img src= 'bg/DTS11.png' height='201' width='201'>";
+       images[12] = "<img src='bg/DTS12.png' height='201' width='201'>";
+       images[13] = "<img src='bg/DTS1.png' height='201' width='201'>";
+       images[14] = "<img src='bg/DTS2.png' height='201' width='201'>";
+       images[15] = "<img src='bg/DTS3.png' height='201' width='201'>";
+       images[16] = "<img src='bg/DTS4.png' height='201' width='201'>";
+       images[17] = "<img src='bg/DTS5.png' height='201' width='201'>";
+       images[18] = "<img src='bg/DTS6.png' height='201' width='201'>";
+       images[19] = "<img src='bg/DTS7.png' height='201' width='201'>";
+       images[20] = "<img src='bg/DTS8.png' height='201' width='201'>";
+       images[21] = "<img src='bg/DTS9.png' height='201' width='201'>";
+       images[22] = "<img src='bg/DTS10.png' height='201' width='201'>";
+       images[23] = "<img src='bg/DTS11.png' height='201' width='201'>";
+        
+    }
+    else if (theme == 1){
+        theme = 0; // next is modern
+        images[0] = "<img src='hour/DTS12.png' height='201' width='201'>";
+               images[1] = "<img src='hour/DTS1.png' height='201' width='201'>";
+               images[2] = "<img src='hour/DTS2.png' height='201' width='201'>";
+               images[3] = "<img src='hour/DTS3.png' height='201' width='201'>";
+               images[4] = "<img src='hour/DTS4.png' height='201' width='201'>";
+               images[5] = "<img src='hour/DTS5.png' height='201' width='201'>";
+               images[6] = "<img src='hour/DTS6.png' height='201' width='201'>";
+               images[7] = "<img src='hour/DTS7.png' height='201' width='201'>";
+               images[8] = "<img src='hour/DTS8.png' height='201' width='201'>";
+               images[9] = "<img src='hour/DTS9.png' height='201' width='201'>";
+               images[10] = "<img src='hour/DTS10.png' height='201' width='201'>";
+               images[11] = "<img src= 'hour/DTS11.png' height='201' width='201'>";
+               images[12] = "<img src='hour/DTS12.png' height='201' width='201'>";
+               images[13] = "<img src='hour/DTS1.png' height='201' width='201'>";
+               images[14] = "<img src='hour/DTS2.png' height='201' width='201'>";
+               images[15] = "<img src='hour/DTS3.png' height='201' width='201'>";
+               images[16] = "<img src='hour/DTS4.png' height='201' width='201'>";
+               images[17] = "<img src='hour/DTS5.png' height='201' width='201'>";
+               images[18] = "<img src='hour/DTS6.png' height='201' width='201'>";
+               images[19] = "<img src='hour/DTS7.png' height='201' width='201'>";
+               images[20] = "<img src='hour/DTS8.png' height='201' width='201'>";
+               images[21] = "<img src='hour/DTS9.png' height='201' width='201'>";
+               images[22] = "<img src='hour/DTS10.png' height='201' width='201'>";
+               images[23] = "<img src='hour/DTS11.png' height='201' width='201'>";
+        
+        
+        
+    }
+    
+    document.getElementById('ds').innerHTML = images[h];
+    document.getElementById('ds').style.zIndex = "-10";
+}
+
+</script>
+
+
+</html>
+
+
+
